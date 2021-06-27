@@ -184,20 +184,20 @@ const promptProject = portfolioData =>
     });
 };
 
-// promptUser()
-//     .then(promptProject)
-//     .then(portfolioData => 
-//     {
-//         fs.writeFile('./index.html', generatePage(portfolioData), err =>
-//         {
-//             if (err) throw new Error(err);
-//             console.log('Portfolio complete! Check out index.html to see the output!');
-//         });
-//     });
+promptUser()
+    .then(promptProject)
+    .then(portfolioData => 
+    {
+        fs.writeFile('./index.html', generatePage(portfolioData), err =>
+        {
+            if (err) throw new Error(err);
+            console.log('Portfolio complete! Check out index.html to see the output!');
+        });
+    });
 
 //Testing via MockData
-fs.writeFile('./index.html', generatePage(mockData), err =>
-{
-    if (err) throw new Error(err);
-    console.log('Portfolio complete! Check out index.html to see the output!');
-});
+// fs.writeFile('./index.html', generatePage(mockData), err =>
+// {
+//     if (err) throw new Error(err);
+//     console.log('Portfolio complete! Check out index.html to see the output!');
+// });
