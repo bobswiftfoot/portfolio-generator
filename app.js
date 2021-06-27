@@ -1,12 +1,52 @@
 const inquirer = require('inquirer');
-// const fs = require('fs');
-// const generatePage = require('./src/page-template.js');
+const fs = require('fs');
+const generatePage = require('./src/page-template.js');
 
-// fs.writeFile('./index.html', generatePage(name, github), err =>
-// {
-//     if (err) throw new Error(err);
-//     console.log('Portfolio complete! Check out index.html to see the output!');
-// });
+const mockData = {
+    name: 'Lernantino',
+    github: 'lernantino',
+    confirmAbout: true,
+    about:
+        'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et.',
+    projects: [
+        {
+            name: 'Run Buddy',
+            description:
+                'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.',
+            languages: ['HTML', 'CSS'],
+            link: 'https://github.com/lernantino/run-buddy',
+            feature: true,
+            confirmAddProject: true
+        },
+        {
+            name: 'Taskinator',
+            description:
+                'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.',
+            languages: ['JavaScript', 'HTML', 'CSS'],
+            link: 'https://github.com/lernantino/taskinator',
+            feature: true,
+            confirmAddProject: true
+        },
+        {
+            name: 'Taskmaster Pro',
+            description:
+                'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.',
+            languages: ['JavaScript', 'jQuery', 'CSS', 'HTML', 'Bootstrap'],
+            link: 'https://github.com/lernantino/taskmaster-pro',
+            feature: false,
+            confirmAddProject: true
+        },
+        {
+            name: 'Robot Gladiators',
+            description:
+                'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque.',
+            languages: ['JavaScript'],
+            link: 'https://github.com/lernantino/robot-gladiators',
+            feature: false,
+            confirmAddProject: false
+        }
+    ]
+};
 
 const promptUser = () =>
 {
@@ -17,7 +57,7 @@ const promptUser = () =>
             message: 'What is your name? (Required)',
             validate: nameInput => 
             {
-                if(nameInput)
+                if (nameInput)
                     return true;
                 else
                 {
@@ -32,7 +72,7 @@ const promptUser = () =>
             message: 'Enter your GitHub Username (Required)',
             validate: githubInput => 
             {
-                if(githubInput)
+                if (githubInput)
                     return true;
                 else
                 {
@@ -53,7 +93,7 @@ const promptUser = () =>
             message: 'Provide some information about yourself:',
             when: ({ confirmAbout }) => 
             {
-                if (confirmAbout) 
+                if (confirmAbout)
                     return true;
                 return false;
             }
@@ -63,7 +103,7 @@ const promptUser = () =>
 
 const promptProject = portfolioData =>
 {
-    if(!portfolioData.projects)
+    if (!portfolioData.projects)
         portfolioData.projects = [];
     console.log(`
     =================
@@ -77,7 +117,7 @@ const promptProject = portfolioData =>
             message: 'What is the name of your project? (Required)',
             validate: nameInput => 
             {
-                if(nameInput)
+                if (nameInput)
                     return true;
                 else
                 {
@@ -92,7 +132,7 @@ const promptProject = portfolioData =>
             message: 'Provide a description of the project (Required)',
             validate: descriptionInput => 
             {
-                if(descriptionInput)
+                if (descriptionInput)
                     return true;
                 else
                 {
@@ -113,7 +153,7 @@ const promptProject = portfolioData =>
             message: 'Enter the GitHub link to your project. (Required)',
             validate: linkInput => 
             {
-                if(linkInput)
+                if (linkInput)
                     return true;
                 else
                 {
@@ -134,15 +174,30 @@ const promptProject = portfolioData =>
             message: 'Would you like to enter another project?',
             default: false
         }
-    ]).then(projectData => {
+    ]).then(projectData =>
+    {
         portfolioData.projects.push(projectData);
-        if(projectData.confirmAddProject)
+        if (projectData.confirmAddProject)
             return promptProject(portfolioData);
         return portfolioData;
-    
-    })
+
+    });
 };
 
-promptUser()
-    .then(promptProject)
-    .then(portfolioData  => console.log(portfolioData ));
+// promptUser()
+//     .then(promptProject)
+//     .then(portfolioData => 
+//     {
+//         fs.writeFile('./index.html', generatePage(portfolioData), err =>
+//         {
+//             if (err) throw new Error(err);
+//             console.log('Portfolio complete! Check out index.html to see the output!');
+//         });
+//     });
+
+//Testing via MockData
+fs.writeFile('./index.html', generatePage(mockData), err =>
+{
+    if (err) throw new Error(err);
+    console.log('Portfolio complete! Check out index.html to see the output!');
+});
